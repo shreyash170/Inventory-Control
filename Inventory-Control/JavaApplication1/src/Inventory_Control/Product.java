@@ -410,6 +410,19 @@ public void SelectProduct(){
     private void addbtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addbtnMouseClicked
       try{
            Con = DriverManager.getConnection("jdbc:derby://localhost:1527/InventoryDB","root","root");
+           String sql="Select ProductID from PRODUCT_TABLE";
+           St = Con.createStatement();
+           Rs = St.executeQuery(sql);
+           Boolean check=true;
+           while(Rs.next()){
+               if(Integer.valueOf(ProductID.getText())== Rs.getInt("ProductID")){
+                   JOptionPane.showMessageDialog(this,"Product Id already exist");
+                   check=false;
+               }
+           }
+           Rs.close();
+           St.close();
+           if(check){
           PreparedStatement add = Con.prepareStatement("insert into PRODUCT_TABLE values(?,?,?,?,?)");
           add.setInt(1, Integer.valueOf(ProductID.getText()));
           add.setString(2, ProductName.getText());
@@ -417,7 +430,7 @@ public void SelectProduct(){
           add.setString(4, ProductDes.getText());
           add.setString(5, ProductCategory.getSelectedItem().toString());
           int row = add.executeUpdate();
-          JOptionPane.showMessageDialog(this,"Product Succeesfully Added");
+          JOptionPane.showMessageDialog(this,"Product Succeesfully Added");}
           Con.close();
           SelectProduct();
           
