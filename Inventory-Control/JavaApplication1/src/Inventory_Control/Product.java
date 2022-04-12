@@ -450,14 +450,35 @@ public void SelectProduct(){
       }
       else
       {
+          
           try{
                Con = DriverManager.getConnection("jdbc:derby://localhost:1527/InventoryDB","root","root");
+               String sql="Select ProductID from PRODUCT_TABLE";
+           St = Con.createStatement();
+           Rs = St.executeQuery(sql);
+           Boolean check=false;
+           while(Rs.next()){
+               if(Integer.valueOf(ProductID.getText())== Rs.getInt("ProductID")){
+                   //JOptionPane.showMessageDialog(this,"Product Id already exist");
+                   check=true;
+               }
+           }
+           Rs.close();
+           St.close();
+           if(check){
                String Id = ProductID.getText();
                String Query = "Delete from root.PRODUCT_TABLE where ProductID="+Id;
                Statement Add = Con.createStatement();
                Add.executeUpdate(Query);
-               SelectProduct();
+           SelectProduct();
+               
                JOptionPane.showMessageDialog(this, "Product has been deleted");
+          }
+           else{
+               JOptionPane.showMessageDialog(this,"ProductID doesn't exist");
+               
+           }
+           
           }
           catch (SQLException e)
           {
