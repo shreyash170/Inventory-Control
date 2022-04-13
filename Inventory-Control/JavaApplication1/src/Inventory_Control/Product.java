@@ -461,8 +461,7 @@ public void SelectProduct(){
     }//GEN-LAST:event_addbtnMouseClicked
 
     private void updatebtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_updatebtnMouseClicked
-//     System.out.println(prodid.getClass().getSimpleName());
-//     System.out.println(ProductID.getText().getClass().getSimpleName());
+
         if(ProductID.getText().isEmpty() ||ProductName.getText().isEmpty() || ProductQnty.getText().isEmpty() || ProductDes.getText().isEmpty() ){
          JOptionPane.showMessageDialog(this,"Incomplete Information");
          
@@ -479,7 +478,6 @@ public void SelectProduct(){
            Boolean check=false;
            while(Rs.next()){
                if(Integer.valueOf(ProductID.getText())== Rs.getInt("ProductID")){
-//                   JOptionPane.showMessageDialog(this,"Product Id already exist");
                    check=true;
                }
            }

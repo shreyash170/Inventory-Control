@@ -11,6 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 import net.proteanit.sql.DbUtils;
 
 /**
@@ -56,9 +57,9 @@ public class Category extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         CatName = new javax.swing.JTextField();
         caddbtn = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        CatEdit = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
+        Catdelete = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         CategoryTable = new javax.swing.JTable();
         jPanel3 = new javax.swing.JPanel();
@@ -82,6 +83,11 @@ public class Category extends javax.swing.JFrame {
         jLabel3.setFont(new java.awt.Font("Segoe UI Emoji", 1, 28)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("x");
+        jLabel3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel3MouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -152,13 +158,18 @@ public class Category extends javax.swing.JFrame {
             }
         });
 
-        jButton3.setBackground(new java.awt.Color(0, 153, 204));
-        jButton3.setFont(new java.awt.Font("OCR A Extended", 1, 18)); // NOI18N
-        jButton3.setForeground(new java.awt.Color(255, 255, 255));
-        jButton3.setText("EDIT");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        CatEdit.setBackground(new java.awt.Color(0, 153, 204));
+        CatEdit.setFont(new java.awt.Font("OCR A Extended", 1, 18)); // NOI18N
+        CatEdit.setForeground(new java.awt.Color(255, 255, 255));
+        CatEdit.setText("EDIT");
+        CatEdit.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                CatEditMouseClicked(evt);
+            }
+        });
+        CatEdit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                CatEditActionPerformed(evt);
             }
         });
 
@@ -166,19 +177,29 @@ public class Category extends javax.swing.JFrame {
         jButton4.setFont(new java.awt.Font("OCR A Extended", 1, 18)); // NOI18N
         jButton4.setForeground(new java.awt.Color(255, 255, 255));
         jButton4.setText("HOME");
+        jButton4.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton4MouseClicked(evt);
+            }
+        });
         jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton4ActionPerformed(evt);
             }
         });
 
-        jButton5.setBackground(new java.awt.Color(0, 153, 204));
-        jButton5.setFont(new java.awt.Font("OCR A Extended", 1, 18)); // NOI18N
-        jButton5.setForeground(new java.awt.Color(255, 255, 255));
-        jButton5.setText("DELETE");
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
+        Catdelete.setBackground(new java.awt.Color(0, 153, 204));
+        Catdelete.setFont(new java.awt.Font("OCR A Extended", 1, 18)); // NOI18N
+        Catdelete.setForeground(new java.awt.Color(255, 255, 255));
+        Catdelete.setText("DELETE");
+        Catdelete.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                CatdeleteMouseClicked(evt);
+            }
+        });
+        Catdelete.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
+                CatdeleteActionPerformed(evt);
             }
         });
 
@@ -193,6 +214,11 @@ public class Category extends javax.swing.JFrame {
         ));
         CategoryTable.setRowHeight(25);
         CategoryTable.setSelectionBackground(new java.awt.Color(0, 153, 204));
+        CategoryTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                CategoryTableMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(CategoryTable);
 
         jPanel3.setBackground(new java.awt.Color(0, 153, 204));
@@ -222,11 +248,11 @@ public class Category extends javax.swing.JFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(104, 104, 104)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(Catdelete, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(caddbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(48, 48, 48)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(CatEdit, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(14, 14, 14)
@@ -266,13 +292,13 @@ public class Category extends javax.swing.JFrame {
                         .addGap(55, 55, 55)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(caddbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(CatEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(Catdelete, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 78, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 72, Short.MAX_VALUE)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
@@ -307,17 +333,17 @@ public class Category extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_caddbtnActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void CatEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CatEditActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_CatEditActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton4ActionPerformed
 
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+    private void CatdeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CatdeleteActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton5ActionPerformed
+    }//GEN-LAST:event_CatdeleteActionPerformed
 
     private void caddbtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_caddbtnMouseClicked
      try{
@@ -348,6 +374,106 @@ public class Category extends javax.swing.JFrame {
           e.printStackTrace();
       }
     }//GEN-LAST:event_caddbtnMouseClicked
+
+    private void CatdeleteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CatdeleteMouseClicked
+            if(CatID.getText().isEmpty()){
+          JOptionPane.showMessageDialog(this, "Enter The CategoryID to be deleted");
+      }
+      else
+      {
+          
+          try{
+               Con = DriverManager.getConnection("jdbc:derby://localhost:1527/InventoryDB","root","root");
+               String sql="Select CategoryID from CATEGORY_TABLE";
+           St = Con.createStatement();
+           Rs = St.executeQuery(sql);
+           Boolean check=false;
+           while(Rs.next()){
+               if(Integer.valueOf(CatID.getText())== Rs.getInt("CategoryID")){
+                   //JOptionPane.showMessageDialog(this,"Product Id already exist");
+                   check=true;
+               }
+           }
+           Rs.close();
+           St.close();
+           if(check){
+               String Id = CatID.getText();
+               String Query = "Delete from root.CATEGORY_TABLE where CategoryID="+Id;
+               Statement Add = Con.createStatement();
+               Add.executeUpdate(Query);
+           SelectCategory();
+               
+               JOptionPane.showMessageDialog(this, "Category has been deleted");
+          }
+           else{
+               JOptionPane.showMessageDialog(this,"Enter valid CategoryID");
+               
+           }
+           
+          }
+          catch (SQLException e)
+          {
+            e.printStackTrace();
+          }
+      }
+    }//GEN-LAST:event_CatdeleteMouseClicked
+
+    private void CategoryTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CategoryTableMouseClicked
+           DefaultTableModel model=(DefaultTableModel)CategoryTable.getModel();
+        int Myindex = CategoryTable.getSelectedRow();
+        CatID.setText(model.getValueAt(Myindex,0).toString());
+        prodid=model.getValueAt(Myindex,0).toString();
+        CatName.setText(model.getValueAt(Myindex,1).toString());
+        
+    }//GEN-LAST:event_CategoryTableMouseClicked
+
+    private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
+        System.exit(0);
+    }//GEN-LAST:event_jLabel3MouseClicked
+
+    private void CatEditMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CatEditMouseClicked
+     if(CatID.getText().isEmpty() || CatName.getText().isEmpty() ){
+         JOptionPane.showMessageDialog(this,"Incomplete Information");
+         
+     }
+     else if(!prodid.equals(CatID.getText()) && !prodid.equals("a")){
+         JOptionPane.showMessageDialog(this,"Category id cannot be changed" );
+     }
+     else{
+         try{
+           Con = DriverManager.getConnection("jdbc:derby://localhost:1527/InventoryDB","root","root");
+           String sql="Select CategoryID from CATEGORY_TABLE";
+           St = Con.createStatement();
+           Rs = St.executeQuery(sql);
+           Boolean check=false;
+           while(Rs.next()){
+               if(Integer.valueOf(CatID.getText())== Rs.getInt("CategoryID")){
+                   check=true;
+               }
+           }
+           Rs.close();
+           St.close();
+           if(check){
+              String UpdateQuery = "Update root.CATEGORY_TABLE set CategoryNAME='"+CatName.getText()+"'"+"where CategoryID="+CatID.getText();
+              Statement add = Con.createStatement();
+              add.executeUpdate(UpdateQuery);
+              JOptionPane.showMessageDialog(this,"Updated Sucessfully");
+              SelectCategory();        }
+           else{
+               JOptionPane.showMessageDialog(this,"Category Id does not exist");
+           }
+         }
+         catch(Exception e){
+             
+             e.printStackTrace();
+         }
+     }
+    }//GEN-LAST:event_CatEditMouseClicked
+
+    private void jButton4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton4MouseClicked
+        new Home().setVisible(true);
+       this.dispose();
+    }//GEN-LAST:event_jButton4MouseClicked
 
     /**
      * @param args the command line arguments
@@ -385,13 +511,13 @@ public class Category extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton CatEdit;
     private javax.swing.JTextField CatID;
     private javax.swing.JTextField CatName;
+    private javax.swing.JButton Catdelete;
     private javax.swing.JTable CategoryTable;
     private javax.swing.JButton caddbtn;
-    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
