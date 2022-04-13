@@ -6,6 +6,8 @@ package Inventory_Control;
 
 
 import java.sql.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import net.proteanit.sql.DbUtils;
@@ -20,10 +22,12 @@ public class Product extends javax.swing.JFrame {
         initComponents();
         SelectProduct();
     }
+    
 
     Connection Con = null; 
     Statement St = null;
     ResultSet Rs = null;
+    String prodid="a";
    
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -44,7 +48,7 @@ public class Product extends javax.swing.JFrame {
         jLabel9 = new javax.swing.JLabel();
         ProductCategory = new javax.swing.JComboBox<>();
         addbtn = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        updatebtn = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         deletebtn = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -180,18 +184,18 @@ public class Product extends javax.swing.JFrame {
             }
         });
 
-        jButton3.setBackground(new java.awt.Color(0, 153, 204));
-        jButton3.setFont(new java.awt.Font("OCR A Extended", 1, 18)); // NOI18N
-        jButton3.setForeground(new java.awt.Color(255, 255, 255));
-        jButton3.setText("EDIT");
-        jButton3.addMouseListener(new java.awt.event.MouseAdapter() {
+        updatebtn.setBackground(new java.awt.Color(0, 153, 204));
+        updatebtn.setFont(new java.awt.Font("OCR A Extended", 1, 18)); // NOI18N
+        updatebtn.setForeground(new java.awt.Color(255, 255, 255));
+        updatebtn.setText("EDIT");
+        updatebtn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jButton3MouseClicked(evt);
+                updatebtnMouseClicked(evt);
             }
         });
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        updatebtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                updatebtnActionPerformed(evt);
             }
         });
 
@@ -220,6 +224,7 @@ public class Product extends javax.swing.JFrame {
             }
         });
 
+        ProductTable.setAutoCreateRowSorter(true);
         ProductTable.setFont(new java.awt.Font("Calibri Light", 1, 18)); // NOI18N
         ProductTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -228,7 +233,16 @@ public class Product extends javax.swing.JFrame {
             new String [] {
                 "ProductID", "ProductName", "ProductQuantity", "ProductDescription", "Category"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        ProductTable.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         ProductTable.setRowHeight(25);
         ProductTable.setSelectionBackground(new java.awt.Color(0, 153, 204));
         ProductTable.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -294,7 +308,7 @@ public class Product extends javax.swing.JFrame {
                             .addComponent(addbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(48, 48, 48)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(updatebtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
@@ -338,7 +352,7 @@ public class Product extends javax.swing.JFrame {
                         .addGap(40, 40, 40)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(addbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(updatebtn, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(deletebtn, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -385,9 +399,9 @@ public class Product extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_addbtnActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void updatebtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updatebtnActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_updatebtnActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
@@ -440,9 +454,48 @@ public void SelectProduct(){
       }
     }//GEN-LAST:event_addbtnMouseClicked
 
-    private void jButton3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton3MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton3MouseClicked
+    private void updatebtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_updatebtnMouseClicked
+//     System.out.println(prodid.getClass().getSimpleName());
+//     System.out.println(ProductID.getText().getClass().getSimpleName());
+        if(ProductID.getText().isEmpty() ||ProductName.getText().isEmpty() || ProductQnty.getText().isEmpty() || ProductDes.getText().isEmpty() ){
+         JOptionPane.showMessageDialog(this,"Incomplete Information");
+         
+     }
+     else if(!prodid.equals(ProductID.getText()) && !prodid.equals("a")){
+         JOptionPane.showMessageDialog(this,"Product id cannot be changed" );
+     }
+     else{
+         try{
+              Con = DriverManager.getConnection("jdbc:derby://localhost:1527/InventoryDB","root","root");
+              String sql="Select ProductID from PRODUCT_TABLE";
+           St = Con.createStatement();
+           Rs = St.executeQuery(sql);
+           Boolean check=false;
+           while(Rs.next()){
+               if(Integer.valueOf(ProductID.getText())== Rs.getInt("ProductID")){
+//                   JOptionPane.showMessageDialog(this,"Product Id already exist");
+                   check=true;
+               }
+           }
+           Rs.close();
+           St.close();
+           if(check){
+              String UpdateQuery = "Update root.PRODUCT_TABLE set PRODUCTNAME='"+ProductName.getText()+"'"+",PRODUCTQUANTITY="+ProductQnty.getText()+""+",PRODUCTDESCRIPTION='"+ProductDes.getText()+"'"+",CATEGORY='"+ProductCategory.getSelectedItem().toString()+"'"+"where PRODUCTID="+ProductID.getText();
+              Statement add = Con.createStatement();
+              add.executeUpdate(UpdateQuery);
+              JOptionPane.showMessageDialog(this,"Updated Sucessfully");
+              SelectProduct();        }
+           else{
+               JOptionPane.showMessageDialog(this,"Product Id does not exist");
+           }
+         }
+         catch(Exception e){
+             
+             e.printStackTrace();
+         }
+     }
+    }//GEN-LAST:event_updatebtnMouseClicked
+
 
     private void deletebtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_deletebtnMouseClicked
       if(ProductID.getText().isEmpty()){
@@ -475,7 +528,7 @@ public void SelectProduct(){
                JOptionPane.showMessageDialog(this, "Product has been deleted");
           }
            else{
-               JOptionPane.showMessageDialog(this,"ProductID doesn't exist");
+               JOptionPane.showMessageDialog(this,"Enter valid PRODUCTID");
                
            }
            
@@ -491,6 +544,7 @@ public void SelectProduct(){
         DefaultTableModel model=(DefaultTableModel)ProductTable.getModel();
         int Myindex = ProductTable.getSelectedRow();
         ProductID.setText(model.getValueAt(Myindex,0).toString());
+        prodid=model.getValueAt(Myindex,0).toString();
         ProductName.setText(model.getValueAt(Myindex,1).toString());
         ProductQnty.setText(model.getValueAt(Myindex,2).toString());
         ProductDes.setText(model.getValueAt(Myindex,3).toString());
@@ -547,7 +601,6 @@ System.exit(0);
     private javax.swing.JTable ProductTable;
     private javax.swing.JButton addbtn;
     private javax.swing.JButton deletebtn;
-    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
@@ -562,6 +615,7 @@ System.exit(0);
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JButton updatebtn;
     // End of variables declaration//GEN-END:variables
 
     private void String(String insert_into_product_table_values) {
@@ -569,6 +623,10 @@ System.exit(0);
     }
 
     private void Int(String insert_into_product_table_values) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    private void elseif(boolean b) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }
