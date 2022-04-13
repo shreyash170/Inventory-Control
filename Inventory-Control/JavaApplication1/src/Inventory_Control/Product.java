@@ -49,7 +49,7 @@ public class Product extends javax.swing.JFrame {
         ProductCategory = new javax.swing.JComboBox<>();
         addbtn = new javax.swing.JButton();
         updatebtn = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        homebtn = new javax.swing.JButton();
         deletebtn = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         ProductTable = new javax.swing.JTable();
@@ -199,13 +199,18 @@ public class Product extends javax.swing.JFrame {
             }
         });
 
-        jButton4.setBackground(new java.awt.Color(0, 153, 204));
-        jButton4.setFont(new java.awt.Font("OCR A Extended", 1, 18)); // NOI18N
-        jButton4.setForeground(new java.awt.Color(255, 255, 255));
-        jButton4.setText("HOME");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
+        homebtn.setBackground(new java.awt.Color(0, 153, 204));
+        homebtn.setFont(new java.awt.Font("OCR A Extended", 1, 18)); // NOI18N
+        homebtn.setForeground(new java.awt.Color(255, 255, 255));
+        homebtn.setText("HOME");
+        homebtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                homebtnMouseClicked(evt);
+            }
+        });
+        homebtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
+                homebtnActionPerformed(evt);
             }
         });
 
@@ -245,6 +250,7 @@ public class Product extends javax.swing.JFrame {
         ProductTable.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         ProductTable.setRowHeight(25);
         ProductTable.setSelectionBackground(new java.awt.Color(0, 153, 204));
+        ProductTable.getTableHeader().setReorderingAllowed(false);
         ProductTable.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 ProductTableMouseClicked(evt);
@@ -309,7 +315,7 @@ public class Product extends javax.swing.JFrame {
                         .addGap(48, 48, 48)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(updatebtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(homebtn, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(26, 26, 26)
@@ -356,7 +362,7 @@ public class Product extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(deletebtn, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(homebtn, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 405, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 74, Short.MAX_VALUE)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -403,9 +409,9 @@ public class Product extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_updatebtnActionPerformed
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+    private void homebtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_homebtnActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton4ActionPerformed
+    }//GEN-LAST:event_homebtnActionPerformed
 
     private void deletebtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deletebtnActionPerformed
         // TODO add your handling code here:
@@ -556,6 +562,11 @@ public void SelectProduct(){
 System.exit(0);        
     }//GEN-LAST:event_jLabel3MouseClicked
 
+    private void homebtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_homebtnMouseClicked
+       new Home().setVisible(true);
+       this.dispose();
+    }//GEN-LAST:event_homebtnMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -601,7 +612,7 @@ System.exit(0);
     private javax.swing.JTable ProductTable;
     private javax.swing.JButton addbtn;
     private javax.swing.JButton deletebtn;
-    private javax.swing.JButton jButton4;
+    private javax.swing.JButton homebtn;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

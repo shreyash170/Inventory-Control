@@ -95,7 +95,7 @@
                           <EmptySpace min="-2" pref="48" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
                               <Component id="updatebtn" alignment="0" max="32767" attributes="0"/>
-                              <Component id="jButton4" alignment="0" min="-2" pref="99" max="-2" attributes="0"/>
+                              <Component id="homebtn" alignment="0" min="-2" pref="99" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
@@ -156,7 +156,7 @@
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="deletebtn" alignment="3" min="-2" pref="38" max="-2" attributes="0"/>
-                              <Component id="jButton4" alignment="3" min="-2" pref="38" max="-2" attributes="0"/>
+                              <Component id="homebtn" alignment="3" min="-2" pref="38" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <Component id="jScrollPane1" alignment="0" min="-2" pref="405" max="-2" attributes="0"/>
@@ -428,7 +428,7 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="updatebtnActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="jButton4">
+        <Component class="javax.swing.JButton" name="homebtn">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="cc" green="99" red="0" type="rgb"/>
@@ -442,7 +442,8 @@
             <Property name="text" type="java.lang.String" value="HOME"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton4ActionPerformed"/>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="homebtnMouseClicked"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="homebtnActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JButton" name="deletebtn">
@@ -522,7 +523,7 @@
                   <Color blue="cc" green="99" red="0" type="rgb"/>
                 </Property>
                 <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
-                  <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
+                  <TableHeader reorderingAllowed="false" resizingAllowed="true"/>
                 </Property>
               </Properties>
               <Events>
