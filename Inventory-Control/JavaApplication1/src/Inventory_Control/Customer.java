@@ -62,7 +62,7 @@ public class Customer extends javax.swing.JFrame {
         CustomNo = new javax.swing.JTextField();
         Customadd = new javax.swing.JButton();
         updatebtn = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        homebtn = new javax.swing.JButton();
         CustomDelete = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         CustomerTable = new javax.swing.JTable();
@@ -190,13 +190,18 @@ public class Customer extends javax.swing.JFrame {
             }
         });
 
-        jButton4.setBackground(new java.awt.Color(0, 153, 204));
-        jButton4.setFont(new java.awt.Font("OCR A Extended", 1, 18)); // NOI18N
-        jButton4.setForeground(new java.awt.Color(255, 255, 255));
-        jButton4.setText("HOME");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
+        homebtn.setBackground(new java.awt.Color(0, 153, 204));
+        homebtn.setFont(new java.awt.Font("OCR A Extended", 1, 18)); // NOI18N
+        homebtn.setForeground(new java.awt.Color(255, 255, 255));
+        homebtn.setText("HOME");
+        homebtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                homebtnMouseClicked(evt);
+            }
+        });
+        homebtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
+                homebtnActionPerformed(evt);
             }
         });
 
@@ -282,7 +287,7 @@ public class Customer extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addComponent(updatebtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(homebtn, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                         .addComponent(CustomNo, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -324,7 +329,7 @@ public class Customer extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(CustomDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(homebtn, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 78, Short.MAX_VALUE)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -367,9 +372,9 @@ public class Customer extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_updatebtnActionPerformed
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+    private void homebtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_homebtnActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton4ActionPerformed
+    }//GEN-LAST:event_homebtnActionPerformed
 
     private void CustomDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CustomDeleteActionPerformed
         // TODO add your handling code here:
@@ -467,7 +472,7 @@ public class Customer extends javax.swing.JFrame {
     }//GEN-LAST:event_CustomerTableMouseClicked
 
     private void updatebtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_updatebtnMouseClicked
-                if(CustomID.getText().isEmpty() ||CustomName.getText().isEmpty() || CustomNo.getText().isEmpty() ){
+     if(CustomID.getText().isEmpty() ||CustomName.getText().isEmpty() || CustomNo.getText().isEmpty() ){
          JOptionPane.showMessageDialog(this,"Incomplete Information");
          
      }
@@ -504,6 +509,11 @@ public class Customer extends javax.swing.JFrame {
          }
      }
     }//GEN-LAST:event_updatebtnMouseClicked
+
+    private void homebtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_homebtnMouseClicked
+       new Home().setVisible(true);
+       this.dispose();
+    }//GEN-LAST:event_homebtnMouseClicked
 
     /**
      * @param args the command line arguments
@@ -547,7 +557,7 @@ public class Customer extends javax.swing.JFrame {
     private javax.swing.JTextField CustomNo;
     private javax.swing.JButton Customadd;
     private javax.swing.JTable CustomerTable;
-    private javax.swing.JButton jButton4;
+    private javax.swing.JButton homebtn;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
