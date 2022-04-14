@@ -6,9 +6,12 @@ package Inventory_Control;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 import net.proteanit.sql.DbUtils;
 
 /**
@@ -22,23 +25,26 @@ public class Customer extends javax.swing.JFrame {
      */
     public Customer() {
         initComponents();
+        SelectCustomer();
     }
+    
 
      Connection Con = null; 
     Statement St = null;
     ResultSet Rs = null;
     String prodid="a";
 
-   public void SelectCategory(){
+   public void SelectCustomer(){
     try{
         Con = DriverManager.getConnection("jdbc:derby://localhost:1527/InventoryDB","root","root");
         St = Con.createStatement();
-        Rs = St.executeQuery("select * from CATEGORY_TABLE");
-        CustomTable.setModel(DbUtils.resultSetToTableModel(Rs));
+        Rs = St.executeQuery("select * from CUSTOMER_TABLE");
+        CustomerTable.setModel(DbUtils.resultSetToTableModel(Rs));
     }
      catch(SQLException e){
           e.printStackTrace();
       }
+   }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -55,9 +61,9 @@ public class Customer extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         CustomNo = new javax.swing.JTextField();
         Customadd = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        updatebtn = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
+        CustomDelete = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         CustomerTable = new javax.swing.JTable();
         jPanel3 = new javax.swing.JPanel();
@@ -81,6 +87,11 @@ public class Customer extends javax.swing.JFrame {
         jLabel3.setFont(new java.awt.Font("Segoe UI Emoji", 1, 28)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("x");
+        jLabel3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel3MouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -139,7 +150,7 @@ public class Customer extends javax.swing.JFrame {
         jLabel7.setBackground(new java.awt.Color(255, 255, 255));
         jLabel7.setFont(new java.awt.Font("Rockwell Extra Bold", 1, 18)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(0, 153, 204));
-        jLabel7.setText("Phone No.");
+        jLabel7.setText("Phone/Email");
 
         CustomNo.setFont(new java.awt.Font("Calibri Light", 1, 24)); // NOI18N
         CustomNo.setForeground(new java.awt.Color(51, 51, 51));
@@ -164,13 +175,18 @@ public class Customer extends javax.swing.JFrame {
             }
         });
 
-        jButton3.setBackground(new java.awt.Color(0, 153, 204));
-        jButton3.setFont(new java.awt.Font("OCR A Extended", 1, 18)); // NOI18N
-        jButton3.setForeground(new java.awt.Color(255, 255, 255));
-        jButton3.setText("EDIT");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        updatebtn.setBackground(new java.awt.Color(0, 153, 204));
+        updatebtn.setFont(new java.awt.Font("OCR A Extended", 1, 18)); // NOI18N
+        updatebtn.setForeground(new java.awt.Color(255, 255, 255));
+        updatebtn.setText("EDIT");
+        updatebtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                updatebtnMouseClicked(evt);
+            }
+        });
+        updatebtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                updatebtnActionPerformed(evt);
             }
         });
 
@@ -184,27 +200,47 @@ public class Customer extends javax.swing.JFrame {
             }
         });
 
-        jButton5.setBackground(new java.awt.Color(0, 153, 204));
-        jButton5.setFont(new java.awt.Font("OCR A Extended", 1, 18)); // NOI18N
-        jButton5.setForeground(new java.awt.Color(255, 255, 255));
-        jButton5.setText("DELETE");
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
+        CustomDelete.setBackground(new java.awt.Color(0, 153, 204));
+        CustomDelete.setFont(new java.awt.Font("OCR A Extended", 1, 18)); // NOI18N
+        CustomDelete.setForeground(new java.awt.Color(255, 255, 255));
+        CustomDelete.setText("DELETE");
+        CustomDelete.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                CustomDeleteMouseClicked(evt);
+            }
+        });
+        CustomDelete.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
+                CustomDeleteActionPerformed(evt);
             }
         });
 
+        CustomerTable.setAutoCreateRowSorter(true);
         CustomerTable.setFont(new java.awt.Font("Calibri Light", 1, 18)); // NOI18N
         CustomerTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "CustomerID", "CustomerName", "Phone"
+                "CustomerID", "CustomerName", "CustomerContact"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         CustomerTable.setRowHeight(25);
         CustomerTable.setSelectionBackground(new java.awt.Color(0, 153, 204));
+        CustomerTable.getTableHeader().setReorderingAllowed(false);
+        CustomerTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                CustomerTableMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(CustomerTable);
 
         jPanel3.setBackground(new java.awt.Color(0, 153, 204));
@@ -234,7 +270,7 @@ public class Customer extends javax.swing.JFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(61, 61, 61)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(CustomDelete, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(Customadd, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addGap(14, 14, 14)
@@ -245,7 +281,7 @@ public class Customer extends javax.swing.JFrame {
                 .addGap(48, 48, 48)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(updatebtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                         .addComponent(CustomNo, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -284,10 +320,10 @@ public class Customer extends javax.swing.JFrame {
                         .addGap(36, 36, 36)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(Customadd, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(updatebtn, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(CustomDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 78, Short.MAX_VALUE)
@@ -327,21 +363,147 @@ public class Customer extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_CustomaddActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void updatebtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updatebtnActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_updatebtnActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton4ActionPerformed
 
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+    private void CustomDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CustomDeleteActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton5ActionPerformed
+    }//GEN-LAST:event_CustomDeleteActionPerformed
 
     private void CustomaddMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CustomaddMouseClicked
-       
+    try{
+           Con = DriverManager.getConnection("jdbc:derby://localhost:1527/InventoryDB","root","root");
+           String sql="Select CustomerID from CUSTOMER_TABLE";
+           St = Con.createStatement();
+           Rs = St.executeQuery(sql);
+           Boolean check=true;
+           while(Rs.next()){
+               if(Integer.valueOf(CustomID.getText())== Rs.getInt("CustomerID")){
+                   JOptionPane.showMessageDialog(this,"Customer Id already exist");
+                   check=false;
+               }
+           }
+           Rs.close();
+           St.close();
+           if(check){
+          PreparedStatement add = Con.prepareStatement("insert into CUSTOMER_TABLE values(?,?,?)");
+          int id=Integer.valueOf(CustomID.getText());
+          if(id<=0){
+              JOptionPane.showMessageDialog(this,"Invalid Parameter");
+          }
+          else{
+          add.setInt(1,id );
+          add.setString(2, CustomName.getText());
+          add.setString(3, CustomNo.getText());
+          int row = add.executeUpdate();
+          JOptionPane.showMessageDialog(this,"Customer Succeesfully Added");}}
+          Con.close();
+          SelectCustomer();
+    } 
+      catch(SQLException e){
+          e.printStackTrace();
+}     
     }//GEN-LAST:event_CustomaddMouseClicked
+
+    private void CustomDeleteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CustomDeleteMouseClicked
+         if(CustomID.getText().isEmpty()){
+          JOptionPane.showMessageDialog(this, "Enter The Customer ID to be deleted");
+      }
+      else
+      {
+          
+          try{
+               Con = DriverManager.getConnection("jdbc:derby://localhost:1527/InventoryDB","root","root");
+               String sql="Select CustomerID from CUSTOMER_TABLE";
+           St = Con.createStatement();
+           Rs = St.executeQuery(sql);
+           Boolean check=false;
+           while(Rs.next()){
+               if(Integer.valueOf(CustomID.getText())== Rs.getInt("CustomerID")){
+                 
+                   check=true;
+               }
+           }
+           Rs.close();
+           St.close();
+           if(check){
+               String Id =CustomID.getText();
+               String Query = "Delete from root.CUSTOMER_TABLE where CustomerID="+Id;
+               Statement Add = Con.createStatement();
+               Add.executeUpdate(Query);
+           SelectCustomer();
+               
+               JOptionPane.showMessageDialog(this, "Customer has been removed");
+          }
+           else{
+               JOptionPane.showMessageDialog(this,"Enter valid Customer ID");
+               
+           }
+           
+          }
+          catch (SQLException e)
+          {
+            e.printStackTrace();
+          }
+      }
+    }//GEN-LAST:event_CustomDeleteMouseClicked
+
+    private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
+        System.exit(0);
+    }//GEN-LAST:event_jLabel3MouseClicked
+
+    private void CustomerTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CustomerTableMouseClicked
+         DefaultTableModel model=(DefaultTableModel)CustomerTable.getModel();
+        int Myindex = CustomerTable.getSelectedRow();
+        CustomID.setText(model.getValueAt(Myindex,0).toString());
+        prodid=model.getValueAt(Myindex,0).toString();
+        CustomName.setText(model.getValueAt(Myindex,1).toString());
+        CustomNo.setText(model.getValueAt(Myindex,2).toString());
+    }//GEN-LAST:event_CustomerTableMouseClicked
+
+    private void updatebtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_updatebtnMouseClicked
+                if(CustomID.getText().isEmpty() ||CustomName.getText().isEmpty() || CustomNo.getText().isEmpty() ){
+         JOptionPane.showMessageDialog(this,"Incomplete Information");
+         
+     }
+     else if(!prodid.equals(CustomID.getText()) && !prodid.equals("a")){
+         JOptionPane.showMessageDialog(this,"Customer id cannot be changed" );
+     }
+     else{
+         try{
+              Con = DriverManager.getConnection("jdbc:derby://localhost:1527/InventoryDB","root","root");
+              String sql="Select CustomerID from CUSTOMER_TABLE";
+           St = Con.createStatement();
+           Rs = St.executeQuery(sql);
+           Boolean check=false;
+           while(Rs.next()){
+               if(Integer.valueOf(CustomID.getText())== Rs.getInt("CustomerID")){
+                   check=true;
+               }
+           }
+           Rs.close();
+           St.close();
+           if(check){
+              String UpdateQuery = "Update root.CUSTOMER_TABLE set CustomerName='"+CustomName.getText()+"'"+",CustomerContact='"+CustomNo.getText()+"'"+"where CustomerID="+CustomID.getText();
+              Statement add = Con.createStatement();
+              add.executeUpdate(UpdateQuery);
+              JOptionPane.showMessageDialog(this,"Updated Sucessfully");
+              SelectCustomer();        }
+           else{
+               JOptionPane.showMessageDialog(this,"Customer Id does not exist");
+           }
+         }
+         catch(Exception e){
+             
+             e.printStackTrace();
+         }
+     }
+    }//GEN-LAST:event_updatebtnMouseClicked
 
     /**
      * @param args the command line arguments
@@ -379,14 +541,13 @@ public class Customer extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton CustomDelete;
     private javax.swing.JTextField CustomID;
     private javax.swing.JTextField CustomName;
     private javax.swing.JTextField CustomNo;
     private javax.swing.JButton Customadd;
     private javax.swing.JTable CustomerTable;
-    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -398,5 +559,6 @@ public class Customer extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JButton updatebtn;
     // End of variables declaration//GEN-END:variables
 }

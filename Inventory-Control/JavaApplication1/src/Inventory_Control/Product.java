@@ -445,7 +445,7 @@ public void SelectProduct(){
            if(check){
           PreparedStatement add = Con.prepareStatement("insert into PRODUCT_TABLE values(?,?,?,?,?)");
           int id=Integer.valueOf(ProductID.getText());
-          if(id<0){
+          if(id<=0){
               JOptionPane.showMessageDialog(this,"Product Id should be positive");
           }
           else{
