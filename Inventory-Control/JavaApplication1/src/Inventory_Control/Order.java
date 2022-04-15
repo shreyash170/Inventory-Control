@@ -4,6 +4,7 @@
  */
 package Inventory_Control;
 
+import java.awt.print.PrinterException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -12,6 +13,8 @@ import java.sql.Statement;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import net.proteanit.sql.DbUtils;
@@ -74,7 +77,7 @@ public class Order extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        ProductID = new javax.swing.JTextField();
+        BillID = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
@@ -95,9 +98,10 @@ public class Order extends javax.swing.JFrame {
         qnty = new javax.swing.JTextField();
         jScrollPane3 = new javax.swing.JScrollPane();
         billtable = new javax.swing.JTable();
-        Customname2 = new javax.swing.JLabel();
+        Amount = new javax.swing.JLabel();
         Price = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
+        print = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -151,18 +155,18 @@ public class Order extends javax.swing.JFrame {
                 .addContainerGap(7, Short.MAX_VALUE))
         );
 
-        ProductID.setFont(new java.awt.Font("Calibri Light", 1, 24)); // NOI18N
-        ProductID.setForeground(new java.awt.Color(51, 51, 51));
-        ProductID.addActionListener(new java.awt.event.ActionListener() {
+        BillID.setFont(new java.awt.Font("Calibri Light", 1, 24)); // NOI18N
+        BillID.setForeground(new java.awt.Color(51, 51, 51));
+        BillID.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ProductIDActionPerformed(evt);
+                BillIDActionPerformed(evt);
             }
         });
 
         jLabel6.setBackground(new java.awt.Color(255, 255, 255));
         jLabel6.setFont(new java.awt.Font("Rockwell Extra Bold", 1, 18)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(0, 153, 204));
-        jLabel6.setText("OrderID");
+        jLabel6.setText("Customer Name");
 
         jLabel7.setBackground(new java.awt.Color(255, 255, 255));
         jLabel7.setFont(new java.awt.Font("Rockwell Extra Bold", 1, 18)); // NOI18N
@@ -172,7 +176,7 @@ public class Order extends javax.swing.JFrame {
         jLabel8.setBackground(new java.awt.Color(255, 255, 255));
         jLabel8.setFont(new java.awt.Font("Rockwell Extra Bold", 1, 18)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(0, 153, 204));
-        jLabel8.setText("Description");
+        jLabel8.setText("Date");
 
         addbtn.setBackground(new java.awt.Color(0, 153, 204));
         addbtn.setFont(new java.awt.Font("OCR A Extended", 1, 18)); // NOI18N
@@ -315,7 +319,7 @@ public class Order extends javax.swing.JFrame {
         Customname.setBackground(new java.awt.Color(255, 255, 255));
         Customname.setFont(new java.awt.Font("Rockwell Extra Bold", 1, 18)); // NOI18N
         Customname.setForeground(new java.awt.Color(0, 153, 204));
-        Customname.setText("CustomerName");
+        Customname.setText("                    -----                    ");
 
         jLabel12.setBackground(new java.awt.Color(255, 255, 255));
         jLabel12.setFont(new java.awt.Font("Rockwell Extra Bold", 1, 18)); // NOI18N
@@ -325,7 +329,7 @@ public class Order extends javax.swing.JFrame {
         Date.setBackground(new java.awt.Color(255, 255, 255));
         Date.setFont(new java.awt.Font("Rockwell Extra Bold", 1, 18)); // NOI18N
         Date.setForeground(new java.awt.Color(0, 153, 204));
-        Date.setText("Date");
+        Date.setText("dd/MM/YYYY  HH:mm");
 
         qnty.setFont(new java.awt.Font("Calibri Light", 1, 24)); // NOI18N
         qnty.setForeground(new java.awt.Color(51, 51, 51));
@@ -364,10 +368,10 @@ public class Order extends javax.swing.JFrame {
         });
         jScrollPane3.setViewportView(billtable);
 
-        Customname2.setBackground(new java.awt.Color(255, 255, 255));
-        Customname2.setFont(new java.awt.Font("Rockwell Extra Bold", 1, 18)); // NOI18N
-        Customname2.setForeground(new java.awt.Color(0, 153, 204));
-        Customname2.setText("Amount");
+        Amount.setBackground(new java.awt.Color(255, 255, 255));
+        Amount.setFont(new java.awt.Font("Rockwell Extra Bold", 1, 18)); // NOI18N
+        Amount.setForeground(new java.awt.Color(0, 153, 204));
+        Amount.setText("Amount");
 
         Price.setFont(new java.awt.Font("Calibri Light", 1, 24)); // NOI18N
         Price.setForeground(new java.awt.Color(51, 51, 51));
@@ -381,6 +385,21 @@ public class Order extends javax.swing.JFrame {
         jLabel9.setFont(new java.awt.Font("Rockwell Extra Bold", 1, 18)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(0, 153, 204));
         jLabel9.setText("Price");
+
+        print.setBackground(new java.awt.Color(0, 153, 204));
+        print.setFont(new java.awt.Font("OCR A Extended", 1, 18)); // NOI18N
+        print.setForeground(new java.awt.Color(255, 255, 255));
+        print.setText("Print");
+        print.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                printMouseClicked(evt);
+            }
+        });
+        print.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                printActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -406,11 +425,11 @@ public class Order extends javax.swing.JFrame {
                                         .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addComponent(jLabel8))
-                                .addGap(73, 73, 73)
+                                .addGap(18, 18, 18)
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(Customname, javax.swing.GroupLayout.DEFAULT_SIZE, 245, Short.MAX_VALUE)
-                                    .addComponent(Date, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(ProductID)))))
+                                    .addComponent(BillID)
+                                    .addComponent(Date, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(97, 97, 97)
                         .addComponent(addbtn)
@@ -421,9 +440,11 @@ public class Order extends javax.swing.JFrame {
                         .addComponent(homebtn, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addGap(320, 320, 320)
-                        .addComponent(Customname2, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(189, 189, 189))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(Amount, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(print)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(50, 50, 50)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -433,7 +454,7 @@ public class Order extends javax.swing.JFrame {
                                     .addGroup(jPanel2Layout.createSequentialGroup()
                                         .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(Price, javax.swing.GroupLayout.DEFAULT_SIZE, 308, Short.MAX_VALUE))
+                                        .addComponent(Price, javax.swing.GroupLayout.DEFAULT_SIZE, 319, Short.MAX_VALUE))
                                     .addGroup(jPanel2Layout.createSequentialGroup()
                                         .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -472,7 +493,7 @@ public class Order extends javax.swing.JFrame {
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(ProductID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(BillID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -497,7 +518,11 @@ public class Order extends javax.swing.JFrame {
                                     .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addGap(10, 10, 10)
-                .addComponent(Customname2, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(Amount, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(2, 2, 2)
+                        .addComponent(print, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -535,7 +560,7 @@ public class Order extends javax.swing.JFrame {
     private void ProductTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ProductTableMouseClicked
  DefaultTableModel model=(DefaultTableModel)ProductTable.getModel();
         int Myindex = ProductTable.getSelectedRow();
-        ProductID.setText(model.getValueAt(Myindex,0).toString());
+//        ProductID.setText(model.getValueAt(Myindex,0).toString());
         prodid=model.getValueAt(Myindex,0).toString();
         Prodname= model.getValueAt(Myindex,1).toString();
 //        ProductQnty.setText(model.getValueAt(Myindex,2).toString());
@@ -545,9 +570,9 @@ flag=1;
     }//GEN-LAST:event_ProductTableMouseClicked
 
     private void addtoorderbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addtoorderbtnActionPerformed
-        // TODO add your handling code here:
+       
     }//GEN-LAST:event_addtoorderbtnActionPerformed
-int i=1,price,total;
+int i=1,price,total=0,tot;
 String Prodname;
     private void addtoorderbtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addtoorderbtnMouseClicked
 if(flag==0 || qnty.getText().isEmpty()||Price.getText().isEmpty())
@@ -565,7 +590,11 @@ else{
        v.add(total);
        DefaultTableModel dt= (DefaultTableModel)billtable.getModel();
        dt.addRow(v);
+       tot=tot+total;
+       Amount.setText("Rs. "+tot);
        i++;
+       
+      
     }//GEN-LAST:event_addtoorderbtnMouseClicked
     }
     private void homebtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_homebtnActionPerformed
@@ -594,9 +623,9 @@ else{
         
     }//GEN-LAST:event_addbtnMouseClicked
 
-    private void ProductIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ProductIDActionPerformed
+    private void BillIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BillIDActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_ProductIDActionPerformed
+    }//GEN-LAST:event_BillIDActionPerformed
 
     private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
         System.exit(0);
@@ -609,6 +638,18 @@ else{
     private void PriceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PriceActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_PriceActionPerformed
+
+    private void printActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_printActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_printActionPerformed
+
+    private void printMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_printMouseClicked
+        try {
+            billtable.print();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }//GEN-LAST:event_printMouseClicked
 
     /**
      * @param args the command line arguments
@@ -646,12 +687,12 @@ else{
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel Amount;
+    private javax.swing.JTextField BillID;
     private javax.swing.JTable CustomerTable;
     private javax.swing.JLabel Customname;
-    private javax.swing.JLabel Customname2;
     private javax.swing.JLabel Date;
     private javax.swing.JTextField Price;
-    private javax.swing.JTextField ProductID;
     private javax.swing.JTable ProductTable;
     private javax.swing.JButton addbtn;
     private javax.swing.JButton addtoorderbtn;
@@ -673,6 +714,7 @@ else{
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JButton print;
     private javax.swing.JTextField qnty;
     private javax.swing.JButton updatebtn;
     // End of variables declaration//GEN-END:variables
