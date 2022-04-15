@@ -72,27 +72,10 @@ public class Order extends javax.swing.JFrame {
         int newqnty = oldqnty - Integer.valueOf(qnty.getText());
         try{
            Con = DriverManager.getConnection("jdbc:derby://localhost:1527/InventoryDB","root","root");
-           String sql="Select PRODUCTID from PRODUCT_TABLE";
-           St = Con.createStatement();
-           Rs = St.executeQuery(sql);
-           Boolean check=false;
-           while(Rs.next()){
-               if(Integer.valueOf(productid)== Rs.getInt("PRODUCTID")){
-                   check=true;
-               }
-           }
-           Rs.close();
-           St.close();
-           if(check){
-              String UpdateQuery = "Update root.PRODUCT_TABLE set PRODUCTQUANTITY="+newqnty+""+"where PRODUCTID="+productid;
+           String UpdateQuery = "Update root.PRODUCT_TABLE set PRODUCTQUANTITY="+newqnty+""+"where PRODUCTID="+productid;
               Statement add = Con.createStatement();
               add.executeUpdate(UpdateQuery);
-              JOptionPane.showMessageDialog(this,"Updated Sucessfully");
               SelectProduct();        }
-           else{
-               JOptionPane.showMessageDialog(this,"Category Id does not exist");
-           }
-         }
          catch(Exception e){
              
              e.printStackTrace();
