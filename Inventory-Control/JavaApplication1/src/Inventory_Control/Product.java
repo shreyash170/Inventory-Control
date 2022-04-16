@@ -15,12 +15,10 @@ import net.proteanit.sql.DbUtils;
  
 public class Product extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Product1
-     */
     public Product() {
         initComponents();
         SelectProduct();
+        GetCat();
     }
     
 
@@ -37,7 +35,6 @@ public class Product extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        ProductID = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         ProductName = new javax.swing.JTextField();
@@ -55,6 +52,7 @@ public class Product extends javax.swing.JFrame {
         ProductTable = new javax.swing.JTable();
         jPanel3 = new javax.swing.JPanel();
         jLabel10 = new javax.swing.JLabel();
+        ProductID = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -108,14 +106,6 @@ public class Product extends javax.swing.JFrame {
                 .addContainerGap(7, Short.MAX_VALUE))
         );
 
-        ProductID.setFont(new java.awt.Font("Calibri Light", 1, 24)); // NOI18N
-        ProductID.setForeground(new java.awt.Color(51, 51, 51));
-        ProductID.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ProductIDActionPerformed(evt);
-            }
-        });
-
         jLabel6.setBackground(new java.awt.Color(255, 255, 255));
         jLabel6.setFont(new java.awt.Font("Rockwell Extra Bold", 1, 18)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(0, 153, 204));
@@ -167,7 +157,6 @@ public class Product extends javax.swing.JFrame {
 
         ProductCategory.setFont(new java.awt.Font("Calibri Light", 1, 24)); // NOI18N
         ProductCategory.setForeground(new java.awt.Color(0, 153, 204));
-        ProductCategory.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         addbtn.setBackground(new java.awt.Color(0, 153, 204));
         addbtn.setFont(new java.awt.Font("OCR A Extended", 1, 18)); // NOI18N
@@ -275,6 +264,14 @@ public class Product extends javax.swing.JFrame {
         jLabel10.setForeground(new java.awt.Color(0, 153, 204));
         jLabel10.setText("Products List");
 
+        ProductID.setFont(new java.awt.Font("Calibri Light", 1, 24)); // NOI18N
+        ProductID.setForeground(new java.awt.Color(51, 51, 51));
+        ProductID.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ProductIDActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -304,14 +301,11 @@ public class Product extends javax.swing.JFrame {
                                     .addComponent(jLabel8))
                                 .addGap(18, 18, 18)))
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(ProductQnty)
-                                    .addComponent(ProductDes, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(ProductID)
-                                    .addComponent(ProductName, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addComponent(ProductCategory, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(ProductQnty)
+                            .addComponent(ProductDes, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
+                            .addComponent(ProductName, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
+                            .addComponent(ProductCategory, javax.swing.GroupLayout.Alignment.TRAILING, 0, 200, Short.MAX_VALUE)
+                            .addComponent(ProductID, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(55, 55, 55)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -385,10 +379,6 @@ public class Product extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void ProductIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ProductIDActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_ProductIDActionPerformed
-
     private void ProductNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ProductNameActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_ProductNameActionPerformed
@@ -423,6 +413,20 @@ public void SelectProduct(){
         Rs = St.executeQuery("select * from PRODUCT_TABLE");
         ProductTable.setModel(DbUtils.resultSetToTableModel(Rs));
     }
+     catch(SQLException e){
+          e.printStackTrace();
+      }
+    
+}
+private void GetCat(){
+    try{
+        Con = DriverManager.getConnection("jdbc:derby://localhost:1527/InventoryDB","root","root");
+        St = Con.createStatement();
+        Rs = St.executeQuery("select * from CATEGORY_TABLE");
+        while(Rs.next()){
+            String Mycategory = Rs.getString("CATEGORYNAME");
+            ProductCategory.addItem(Mycategory);
+    }}
      catch(SQLException e){
           e.printStackTrace();
       }
@@ -582,6 +586,10 @@ System.exit(0);
        new Home().setVisible(true);
        this.dispose();
     }//GEN-LAST:event_homebtnMouseClicked
+
+    private void ProductIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ProductIDActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ProductIDActionPerformed
 
     /**
      * @param args the command line arguments
