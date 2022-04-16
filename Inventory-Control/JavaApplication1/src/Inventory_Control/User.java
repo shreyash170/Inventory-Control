@@ -415,14 +415,16 @@ public class User extends javax.swing.JFrame {
     }//GEN-LAST:event_jLabel3MouseClicked
 
     private void deletebtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_deletebtnMouseClicked
+        try{
+        
         if(UserContact.getText().isEmpty()){
           JOptionPane.showMessageDialog(this, "Enter The User Contact to be deleted");
       }
       else
       {
           
-          try{
-               Con = DriverManager.getConnection("jdbc:derby://localhost:1527/InventoryDB","root","root");
+          
+               
                String sql="Select UserContact from USER_TABLE";
            St = Con.createStatement();
            Rs = St.executeQuery(sql);
@@ -440,7 +442,7 @@ public class User extends javax.swing.JFrame {
                String Query = "Delete from root.USER_TABLE where UserContact="+Id;
                Statement Add = Con.createStatement();
                Add.executeUpdate(Query);
-           SelectUser();
+           
                
                JOptionPane.showMessageDialog(this, "User has been removed");
           }
@@ -449,12 +451,30 @@ public class User extends javax.swing.JFrame {
                
            }
            
-          }
-          catch (SQLException e)
+          
+      }
+        Con = DriverManager.getConnection("jdbc:derby://localhost:1527/InventoryDB","root","root");
+              String S1="select count(UserContact) from root.USER_TABLE";
+           St = Con.createStatement();
+           Rs = St.executeQuery(S1);
+           int count=-1;
+           while(Rs.next()){
+              count=Rs.getInt(1);
+           }
+           if(count==0){
+               PreparedStatement add = Con.prepareStatement("insert into USER_TABLE values(?,?,?)");
+               add.setString(1, "admin");
+          add.setString(2, "admin");
+          add.setInt(3,1111);
+          add.executeUpdate();
+               
+           }
+           SelectUser();
+         }
+        catch (SQLException e)
           {
             e.printStackTrace();
           }
-      }
     }//GEN-LAST:event_deletebtnMouseClicked
 
     private void UserTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_UserTableMouseClicked

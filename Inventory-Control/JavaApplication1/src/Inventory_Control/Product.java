@@ -434,6 +434,14 @@ public void SelectProduct(){
            St = Con.createStatement();
            Rs = St.executeQuery(sql);
            Boolean check=true;
+           boolean prodcheck = true;
+           boolean quantcheck = true;
+
+           prodcheck = ProductID.getText().matches("-?\\d+(\\.\\d+)?");
+           quantcheck = ProductQnty.getText().matches("-?\\d+(\\.\\d+)?");
+        if(!prodcheck || !quantcheck)
+        {JOptionPane.showMessageDialog(this,"Invalid parameters");
+        return;}
            while(Rs.next()){
                if(Integer.valueOf(ProductID.getText())== Rs.getInt("ProductID")){
                    JOptionPane.showMessageDialog(this,"Product Id already exist");

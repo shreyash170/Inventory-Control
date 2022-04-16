@@ -470,6 +470,12 @@ public class Customer extends javax.swing.JFrame {
            St = Con.createStatement();
            Rs = St.executeQuery(sql);
            Boolean check=true;
+           boolean customcheck = true;
+         customcheck = CustomID.getText().matches("-?\\d+(\\.\\d+)?");
+          
+        if(!customcheck)
+        {JOptionPane.showMessageDialog(this,"Invalid parameter of customer Id");
+        return;}
            while(Rs.next()){
                if(Integer.valueOf(CustomID.getText())== Rs.getInt("CustomerID")){
                    JOptionPane.showMessageDialog(this,"Customer Id already exist");

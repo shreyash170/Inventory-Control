@@ -35,7 +35,7 @@ public class Order extends javax.swing.JFrame {
         SelectCustomer();
         Today();
     }
-
+    Boolean checkquantity=true;
     Connection Con = null; 
     Statement St = null;
     ResultSet Rs = null;
@@ -70,6 +70,13 @@ public class Order extends javax.swing.JFrame {
     }
     private void update(){
         int newqnty = oldqnty - Integer.valueOf(qnty.getText());
+        if(newqnty<0){
+            JOptionPane.showMessageDialog(this,"Quantity not available");
+            checkquantity=false;
+            return;
+        }
+        checkquantity=true;
+        oldqnty=newqnty;
         try{
            Con = DriverManager.getConnection("jdbc:derby://localhost:1527/InventoryDB","root","root");
            String UpdateQuery = "Update root.PRODUCT_TABLE set PRODUCTQUANTITY="+newqnty+""+"where PRODUCTID="+productid;
@@ -97,7 +104,7 @@ public class Order extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         addbtn = new javax.swing.JButton();
-        updatebtn = new javax.swing.JButton();
+        viewbtn = new javax.swing.JButton();
         homebtn = new javax.swing.JButton();
         addtoorderbtn = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -197,7 +204,7 @@ public class Order extends javax.swing.JFrame {
         addbtn.setBackground(new java.awt.Color(0, 153, 204));
         addbtn.setFont(new java.awt.Font("OCR A Extended", 1, 18)); // NOI18N
         addbtn.setForeground(new java.awt.Color(255, 255, 255));
-        addbtn.setText("Add Order");
+        addbtn.setText("Place Order");
         addbtn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 addbtnMouseClicked(evt);
@@ -209,18 +216,18 @@ public class Order extends javax.swing.JFrame {
             }
         });
 
-        updatebtn.setBackground(new java.awt.Color(0, 153, 204));
-        updatebtn.setFont(new java.awt.Font("OCR A Extended", 1, 18)); // NOI18N
-        updatebtn.setForeground(new java.awt.Color(255, 255, 255));
-        updatebtn.setText("View Order");
-        updatebtn.addMouseListener(new java.awt.event.MouseAdapter() {
+        viewbtn.setBackground(new java.awt.Color(0, 153, 204));
+        viewbtn.setFont(new java.awt.Font("OCR A Extended", 1, 18)); // NOI18N
+        viewbtn.setForeground(new java.awt.Color(255, 255, 255));
+        viewbtn.setText("View Order");
+        viewbtn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                updatebtnMouseClicked(evt);
+                viewbtnMouseClicked(evt);
             }
         });
-        updatebtn.addActionListener(new java.awt.event.ActionListener() {
+        viewbtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                updatebtnActionPerformed(evt);
+                viewbtnActionPerformed(evt);
             }
         });
 
@@ -455,7 +462,7 @@ public class Order extends javax.swing.JFrame {
                         .addGap(97, 97, 97)
                         .addComponent(addbtn)
                         .addGap(49, 49, 49)
-                        .addComponent(updatebtn))
+                        .addComponent(viewbtn))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(210, 210, 210)
                         .addComponent(homebtn, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -527,7 +534,7 @@ public class Order extends javax.swing.JFrame {
                                 .addGap(28, 28, 28)
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(addbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(updatebtn, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(viewbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(18, 18, 18)
                                 .addComponent(homebtn, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel2Layout.createSequentialGroup()
@@ -620,6 +627,10 @@ String Prodname;
             JOptionPane.showMessageDialog(this, "Select Product and Enter Quantity");
         }
         else{
+            update();
+            if(!checkquantity){
+                return;
+            }
             price=Integer.valueOf(Price.getText());
             total=price*Integer.valueOf(qnty.getText());
             Vector v = new Vector();
@@ -632,7 +643,7 @@ String Prodname;
             dt.addRow(v);
             tot=tot+total;
             Amount.setText(""+tot);
-            update();
+            
             i++;
         }
     }//GEN-LAST:event_addtoorderbtnMouseClicked
@@ -646,13 +657,14 @@ String Prodname;
         this.dispose();
     }//GEN-LAST:event_homebtnMouseClicked
 
-    private void updatebtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updatebtnActionPerformed
+    private void viewbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewbtnActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_updatebtnActionPerformed
+    }//GEN-LAST:event_viewbtnActionPerformed
 
-    private void updatebtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_updatebtnMouseClicked
-
-    }//GEN-LAST:event_updatebtnMouseClicked
+    private void viewbtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_viewbtnMouseClicked
+        new ViewOrder().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_viewbtnMouseClicked
 
     private void addbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addbtnActionPerformed
         // TODO add your handling code here:
@@ -773,6 +785,6 @@ String Prodname;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JButton print;
     private javax.swing.JTextField qnty;
-    private javax.swing.JButton updatebtn;
+    private javax.swing.JButton viewbtn;
     // End of variables declaration//GEN-END:variables
 }

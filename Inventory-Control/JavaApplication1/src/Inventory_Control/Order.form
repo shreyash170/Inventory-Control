@@ -83,7 +83,7 @@
                           <EmptySpace min="-2" pref="97" max="-2" attributes="0"/>
                           <Component id="addbtn" min="-2" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="49" max="-2" attributes="0"/>
-                          <Component id="updatebtn" min="-2" max="-2" attributes="0"/>
+                          <Component id="viewbtn" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace min="-2" pref="210" max="-2" attributes="0"/>
@@ -175,7 +175,7 @@
                                   <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="3" attributes="0">
                                       <Component id="addbtn" alignment="3" min="-2" pref="38" max="-2" attributes="0"/>
-                                      <Component id="updatebtn" alignment="3" min="-2" pref="38" max="-2" attributes="0"/>
+                                      <Component id="viewbtn" alignment="3" min="-2" pref="38" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
                                   <Component id="homebtn" min="-2" pref="38" max="-2" attributes="0"/>
@@ -353,14 +353,14 @@
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Add Order"/>
+            <Property name="text" type="java.lang.String" value="Place Order"/>
           </Properties>
           <Events>
             <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="addbtnMouseClicked"/>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="addbtnActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="updatebtn">
+        <Component class="javax.swing.JButton" name="viewbtn">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="cc" green="99" red="0" type="rgb"/>
@@ -374,8 +374,8 @@
             <Property name="text" type="java.lang.String" value="View Order"/>
           </Properties>
           <Events>
-            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="updatebtnMouseClicked"/>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="updatebtnActionPerformed"/>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="viewbtnMouseClicked"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="viewbtnActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JButton" name="homebtn">
