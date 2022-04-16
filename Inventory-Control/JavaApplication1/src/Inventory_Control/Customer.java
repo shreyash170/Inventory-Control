@@ -26,9 +26,21 @@ public class Customer extends javax.swing.JFrame {
     public Customer() {
         initComponents();
         SelectCustomer();
+        costInc();
     }
     
-
+ public void costInc(){
+         try{
+        Con = DriverManager.getConnection("jdbc:derby://localhost:1527/InventoryDB","root","root");
+        St = Con.createStatement();
+        Rs = St.executeQuery("select CUSTOMERID from ID");
+        while(Rs.next()){
+            Customerid.setText(""+Rs.getInt("CUSTOMERID"));}
+    }
+     catch(SQLException e){
+          e.printStackTrace();
+      }
+    }
      Connection Con = null; 
     Statement St = null;
     ResultSet Rs = null;
@@ -56,7 +68,6 @@ public class Customer extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        CustomID = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         CustomName = new javax.swing.JTextField();
@@ -76,6 +87,7 @@ public class Customer extends javax.swing.JFrame {
         jPanel6 = new javax.swing.JPanel();
         sum = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
+        Customerid = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -128,14 +140,6 @@ public class Customer extends javax.swing.JFrame {
                 .addComponent(jLabel4)
                 .addContainerGap(7, Short.MAX_VALUE))
         );
-
-        CustomID.setFont(new java.awt.Font("Calibri Light", 1, 24)); // NOI18N
-        CustomID.setForeground(new java.awt.Color(51, 51, 51));
-        CustomID.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                CustomIDActionPerformed(evt);
-            }
-        });
 
         jLabel6.setBackground(new java.awt.Color(255, 255, 255));
         jLabel6.setFont(new java.awt.Font("Rockwell Extra Bold", 1, 18)); // NOI18N
@@ -338,6 +342,12 @@ public class Customer extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        Customerid.setBackground(new java.awt.Color(255, 255, 255));
+        Customerid.setFont(new java.awt.Font("Rockwell Extra Bold", 1, 18)); // NOI18N
+        Customerid.setForeground(new java.awt.Color(0, 153, 204));
+        Customerid.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        Customerid.setText("                    -----                    ");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -351,35 +361,35 @@ public class Customer extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(77, 77, 77))
                     .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(16, 16, 16)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGap(61, 61, 61)
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(CustomDelete, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(Customadd, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                                .addGap(14, 14, 14)
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(48, 48, 48)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(updatebtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(homebtn, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(CustomNo, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(CustomID)
-                                    .addComponent(CustomName, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))))))
-                .addGap(77, 77, 77)
+                            .addComponent(Customerid, javax.swing.GroupLayout.DEFAULT_SIZE, 245, Short.MAX_VALUE)
+                            .addComponent(CustomName)
+                            .addComponent(CustomNo))
+                        .addGap(32, 32, 32))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
+                        .addGap(115, 115, 115)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(CustomDelete, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(Customadd, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(48, 48, 48)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(updatebtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(homebtn, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 662, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(50, Short.MAX_VALUE))
+                .addGap(50, 50, 50))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -392,7 +402,7 @@ public class Customer extends javax.swing.JFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel6)
-                            .addComponent(CustomID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(Customerid, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel5)
@@ -401,7 +411,7 @@ public class Customer extends javax.swing.JFrame {
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel7)
                             .addComponent(CustomNo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(36, 36, 36)
+                        .addGap(33, 33, 33)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(Customadd, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(updatebtn, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -435,10 +445,6 @@ public class Customer extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void CustomIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CustomIDActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_CustomIDActionPerformed
-
     private void CustomNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CustomNameActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_CustomNameActionPerformed
@@ -469,43 +475,27 @@ public class Customer extends javax.swing.JFrame {
            String sql="Select CustomerID from CUSTOMER_TABLE";
            St = Con.createStatement();
            Rs = St.executeQuery(sql);
-           Boolean check=true;
-           boolean customcheck = true;
-         customcheck = CustomID.getText().matches("-?\\d+(\\.\\d+)?");
           
-        if(!customcheck)
-        {JOptionPane.showMessageDialog(this,"Invalid parameter of customer Id");
-        return;}
-           while(Rs.next()){
-               if(Integer.valueOf(CustomID.getText())== Rs.getInt("CustomerID")){
-                   JOptionPane.showMessageDialog(this,"Customer Id already exist");
-                   check=false;
-               }
-           }
-           Rs.close();
-           St.close();
-           if(check){
           PreparedStatement add = Con.prepareStatement("insert into CUSTOMER_TABLE values(?,?,?)");
-          int id=Integer.valueOf(CustomID.getText());
-          if(id<=0){
-              JOptionPane.showMessageDialog(this,"Invalid Parameter");
-          }
-          else{
+          int id=Integer.valueOf(Customerid.getText());
           add.setInt(1,id );
           add.setString(2, CustomName.getText());
           add.setString(3, CustomNo.getText());
           int row = add.executeUpdate();
-          JOptionPane.showMessageDialog(this,"Customer Succeesfully Added");}}
+          JOptionPane.showMessageDialog(this,"Customer Succeesfully Added");
+           String UpdateQuery = "Update root.ID set customerID="+(id+1)+"where customERID="+id;
+                         Statement add1 = Con.createStatement();
+                            add1.executeUpdate(UpdateQuery);
+                          costInc();
           Con.close();
           SelectCustomer();
-    } 
+    }
       catch(SQLException e){
-          e.printStackTrace();
-}     
+          e.printStackTrace();}    
     }//GEN-LAST:event_CustomaddMouseClicked
 
     private void CustomDeleteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CustomDeleteMouseClicked
-         if(CustomID.getText().isEmpty()){
+         if(Customerid.getText().isEmpty()){
           JOptionPane.showMessageDialog(this, "Enter The Customer ID to be deleted");
       }
       else
@@ -518,7 +508,7 @@ public class Customer extends javax.swing.JFrame {
            Rs = St.executeQuery(sql);
            Boolean check=false;
            while(Rs.next()){
-               if(Integer.valueOf(CustomID.getText())== Rs.getInt("CustomerID")){
+               if(Integer.valueOf(Customerid.getText())== Rs.getInt("CustomerID")){
                  
                    check=true;
                }
@@ -526,7 +516,7 @@ public class Customer extends javax.swing.JFrame {
            Rs.close();
            St.close();
            if(check){
-               String Id =CustomID.getText();
+               String Id =Customerid.getText();
                String Query = "Delete from root.CUSTOMER_TABLE where CustomerID="+Id;
                Statement Add = Con.createStatement();
                Add.executeUpdate(Query);
@@ -554,7 +544,7 @@ public class Customer extends javax.swing.JFrame {
     private void CustomerTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CustomerTableMouseClicked
          DefaultTableModel model=(DefaultTableModel)CustomerTable.getModel();
         int Myindex = CustomerTable.getSelectedRow();
-        CustomID.setText(model.getValueAt(Myindex,0).toString());
+        Customerid.setText(model.getValueAt(Myindex,0).toString());
         prodid=model.getValueAt(Myindex,0).toString();
         CustomName.setText(model.getValueAt(Myindex,1).toString());
         CustomNo.setText(model.getValueAt(Myindex,2).toString());
@@ -578,11 +568,11 @@ public class Customer extends javax.swing.JFrame {
     }//GEN-LAST:event_CustomerTableMouseClicked
 
     private void updatebtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_updatebtnMouseClicked
-     if(CustomID.getText().isEmpty() ||CustomName.getText().isEmpty() || CustomNo.getText().isEmpty() ){
+     if(Customerid.getText().isEmpty() ||CustomName.getText().isEmpty() || CustomNo.getText().isEmpty() ){
          JOptionPane.showMessageDialog(this,"Incomplete Information");
          
      }
-     else if(!prodid.equals(CustomID.getText()) && !prodid.equals("a")){
+     else if(!prodid.equals(Customerid.getText()) && !prodid.equals("a")){
          JOptionPane.showMessageDialog(this,"Customer id cannot be changed" );
      }
      else{
@@ -593,14 +583,14 @@ public class Customer extends javax.swing.JFrame {
            Rs = St.executeQuery(sql);
            Boolean check=false;
            while(Rs.next()){
-               if(Integer.valueOf(CustomID.getText())== Rs.getInt("CustomerID")){
+               if(Integer.valueOf(Customerid.getText())== Rs.getInt("CustomerID")){
                    check=true;
                }
            }
            Rs.close();
            St.close();
            if(check){
-              String UpdateQuery = "Update root.CUSTOMER_TABLE set CustomerName='"+CustomName.getText()+"'"+",CustomerContact='"+CustomNo.getText()+"'"+"where CustomerID="+CustomID.getText();
+              String UpdateQuery = "Update root.CUSTOMER_TABLE set CustomerName='"+CustomName.getText()+"'"+",CustomerContact='"+CustomNo.getText()+"'"+"where CustomerID="+Customerid.getText();
               Statement add = Con.createStatement();
               add.executeUpdate(UpdateQuery);
               JOptionPane.showMessageDialog(this,"Updated Sucessfully");
@@ -658,11 +648,11 @@ public class Customer extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton CustomDelete;
-    private javax.swing.JTextField CustomID;
     private javax.swing.JTextField CustomName;
     private javax.swing.JTextField CustomNo;
     private javax.swing.JButton Customadd;
     private javax.swing.JTable CustomerTable;
+    private javax.swing.JLabel Customerid;
     private javax.swing.JLabel count;
     private javax.swing.JButton homebtn;
     private javax.swing.JLabel jLabel10;

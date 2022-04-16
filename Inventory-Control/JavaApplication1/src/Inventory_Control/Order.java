@@ -34,6 +34,36 @@ public class Order extends javax.swing.JFrame {
         SelectProduct();
         SelectCustomer();
         Today();
+        OrdInc();
+    }
+    String usrname="";
+     private void abc1(){
+    try{
+    Con = DriverManager.getConnection("jdbc:derby://localhost:1527/InventoryDB","root","root");
+     String sql="Select USERCONT from USERNAME";
+           St = Con.createStatement();
+           Rs = St.executeQuery(sql);
+           while(Rs.next()){
+                usrname=Rs.getString("USERCONT");
+
+       }
+           Rs.close();
+           St.close();
+    }
+    catch(SQLException e){
+         e.printStackTrace();
+                }}
+    public void OrdInc(){
+         try{
+        Con = DriverManager.getConnection("jdbc:derby://localhost:1527/InventoryDB","root","root");
+        St = Con.createStatement();
+        Rs = St.executeQuery("select ORDERID from ID");
+        while(Rs.next()){
+            BillID.setText(""+Rs.getInt("ORDERID"));}
+    }
+     catch(SQLException e){
+          e.printStackTrace();
+      }
     }
     Boolean checkquantity=true;
     Connection Con = null; 
@@ -99,7 +129,6 @@ public class Order extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        BillID = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
@@ -114,7 +143,7 @@ public class Order extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         CustomerTable = new javax.swing.JTable();
         jLabel11 = new javax.swing.JLabel();
-        Customname = new javax.swing.JLabel();
+        BillID = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
         Date = new javax.swing.JLabel();
         qnty = new javax.swing.JTextField();
@@ -125,6 +154,7 @@ public class Order extends javax.swing.JFrame {
         jLabel9 = new javax.swing.JLabel();
         print = new javax.swing.JButton();
         Amount1 = new javax.swing.JLabel();
+        Customname1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -177,14 +207,6 @@ public class Order extends javax.swing.JFrame {
                 .addComponent(jLabel4)
                 .addContainerGap(7, Short.MAX_VALUE))
         );
-
-        BillID.setFont(new java.awt.Font("Calibri Light", 1, 24)); // NOI18N
-        BillID.setForeground(new java.awt.Color(51, 51, 51));
-        BillID.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BillIDActionPerformed(evt);
-            }
-        });
 
         jLabel6.setBackground(new java.awt.Color(255, 255, 255));
         jLabel6.setFont(new java.awt.Font("Rockwell Extra Bold", 1, 18)); // NOI18N
@@ -339,10 +361,11 @@ public class Order extends javax.swing.JFrame {
         jLabel11.setForeground(new java.awt.Color(0, 153, 204));
         jLabel11.setText("Customers List");
 
-        Customname.setBackground(new java.awt.Color(255, 255, 255));
-        Customname.setFont(new java.awt.Font("Rockwell Extra Bold", 1, 18)); // NOI18N
-        Customname.setForeground(new java.awt.Color(0, 153, 204));
-        Customname.setText("                    -----                    ");
+        BillID.setBackground(new java.awt.Color(255, 255, 255));
+        BillID.setFont(new java.awt.Font("Rockwell Extra Bold", 1, 18)); // NOI18N
+        BillID.setForeground(new java.awt.Color(0, 153, 204));
+        BillID.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        BillID.setText("                    -----                    ");
 
         jLabel12.setBackground(new java.awt.Color(255, 255, 255));
         jLabel12.setFont(new java.awt.Font("Rockwell Extra Bold", 1, 18)); // NOI18N
@@ -429,6 +452,12 @@ public class Order extends javax.swing.JFrame {
         Amount1.setForeground(new java.awt.Color(0, 153, 204));
         Amount1.setText("Rs.");
 
+        Customname1.setBackground(new java.awt.Color(255, 255, 255));
+        Customname1.setFont(new java.awt.Font("Rockwell Extra Bold", 1, 18)); // NOI18N
+        Customname1.setForeground(new java.awt.Color(0, 153, 204));
+        Customname1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        Customname1.setText("----");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -455,9 +484,9 @@ public class Order extends javax.swing.JFrame {
                                     .addComponent(jLabel8))
                                 .addGap(18, 18, 18)
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(Customname, javax.swing.GroupLayout.DEFAULT_SIZE, 245, Short.MAX_VALUE)
-                                    .addComponent(BillID)
-                                    .addComponent(Date, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                                    .addComponent(BillID, javax.swing.GroupLayout.DEFAULT_SIZE, 245, Short.MAX_VALUE)
+                                    .addComponent(Date, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(Customname1, javax.swing.GroupLayout.DEFAULT_SIZE, 245, Short.MAX_VALUE)))))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(97, 97, 97)
                         .addComponent(addbtn)
@@ -508,42 +537,43 @@ public class Order extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 178, Short.MAX_VALUE)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                .addGap(27, 27, 27)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(1, 1, 1)
+                        .addGap(28, 28, 28)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(addtoorderbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(qnty, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 71, Short.MAX_VALUE)
                         .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(BillID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGap(31, 31, 31)
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(Customname, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(BillID, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(Date, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(28, 28, 28)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(Price, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(Customname1, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(Date, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(112, 112, 112))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGap(37, 37, 37)
+                                .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(addbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(viewbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(18, 18, 18)
-                                .addComponent(homebtn, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGap(4, 4, 4)
-                                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(Price, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addComponent(homebtn, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -600,7 +630,7 @@ public class Order extends javax.swing.JFrame {
         int Myindex = CustomerTable.getSelectedRow();
         //CustomID.setText(model.getValueAt(Myindex,0).toString());
         prodid=model.getValueAt(Myindex,0).toString();
-        Customname.setText(model.getValueAt(Myindex,1).toString());
+        Customname1.setText(model.getValueAt(Myindex,1).toString());
         //CustomNo.setText(model.getValueAt(Myindex,2).toString());
     }//GEN-LAST:event_CustomerTableMouseClicked
   int flag=0,productid,oldqnty;int i=1,price,total=0,tot;
@@ -691,31 +721,36 @@ String Prodname;
                 Rs.close();
                 St.close();
                 if(check){
-                    PreparedStatement add = Con.prepareStatement("insert into ORDER_TABLE values(?,?,?,?)");
+                    PreparedStatement add = Con.prepareStatement("insert into ORDER_TABLE values(?,?,?,?,?)");
                     int id=Integer.valueOf(BillID.getText());
-                    if(id<=0){
-                        JOptionPane.showMessageDialog(this,"Order Id should be positive");
-                    }
-                    else{
+                   
                         add.setInt(1,id );
-                        add.setString(2, Customname.getText());
+                        add.setString(2, BillID.getText());
                         add.setString(3, Date.getText());
                         add.setInt(4, Integer.valueOf(Amount.getText()));
+                        abc1();
+                        add.setString(5,usrname);
                         int row = add.executeUpdate();
-                        JOptionPane.showMessageDialog(this,"Order Succeesfully Placed");}
-                    Con.close();
+                        JOptionPane.showMessageDialog(this,"Order Succeesfully Placed");
+                        String UpdateQuery = "Update root.ID set ORDERID="+(id+1)+"where ORDERID="+id;
+                         Statement add1 = Con.createStatement();
+                            add1.executeUpdate(UpdateQuery);
+                          OrdInc();      
 
-                }}
+                    
+                    Con.close();
+                    
+                    
+
+                }
+                
+            }
 
                 catch(SQLException e){
                     e.printStackTrace();
                 }
             }
     }//GEN-LAST:event_addbtnMouseClicked
-
-    private void BillIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BillIDActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_BillIDActionPerformed
 
     private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
         System.exit(0);
@@ -757,9 +792,9 @@ String Prodname;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Amount;
     private javax.swing.JLabel Amount1;
-    private javax.swing.JTextField BillID;
+    private javax.swing.JLabel BillID;
     private javax.swing.JTable CustomerTable;
-    private javax.swing.JLabel Customname;
+    private javax.swing.JLabel Customname1;
     private javax.swing.JLabel Date;
     private javax.swing.JTextField Price;
     private javax.swing.JTable ProductTable;
