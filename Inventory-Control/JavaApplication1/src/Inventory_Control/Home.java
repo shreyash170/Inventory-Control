@@ -442,7 +442,7 @@ this.dispose();          // TODO add your handling code here:
 
     private void jLabel9MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel9MouseClicked
         if(!usrname.equals("admin")){
-            JOptionPane.showMessageDialog(this,"You Do not have access");
+            JOptionPane.showMessageDialog(this,"Access Denied!");
             return;
         }
         
